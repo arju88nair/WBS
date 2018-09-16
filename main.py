@@ -16,13 +16,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_file
 db = SQLAlchemy(app)
 
 class BluePrint(db.Model):
-    name = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    slno = db.Column(db.String(45))
+    name = db.Column(db.String(255))
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
+    parent_id = db.Column(db.Integer)
 
    
 
 @app.route('/', methods=["GET", "POST"])
 def home():
-    return render_template("home.html")
+    blueprints = BluePrint.query.all()
+    return render_template("home.html",blueprints=blueprints)
 
 if __name__ == "__main__":
     app.run(debug=True)
