@@ -1,5 +1,5 @@
 import os
-
+import csv
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -29,6 +29,17 @@ class BluePrint(db.Model):
 def home():
     blueprints = BluePrint.query.all()
     return render_template("home.html",blueprints=blueprints)
+
+@app.route('/downloadCsv', methods=["GET", "POST"])
+def getCsv():    
+    records = BluePrint.query.all()
+    with open('vehicle.csv', 'w') as f_handle:
+        writer = csv.writer(f_handle)
+        # Add the header/column names
+        header = ['id','slno','name','start_date','end_date','parent_id']
+        writer.writerow(header)
+        # Iterate over `data`  and  write to the csv file
+        [writer.writerow([getattr(curr, column.name) for column in BluePrint.__mapper__.columns]) for curr in records]
 
 if __name__ == "__main__":
     app.run(debug=True)
