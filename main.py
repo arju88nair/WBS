@@ -7,8 +7,7 @@ from flask import request
 import urllib
 from flask import send_from_directory
 from sqlalchemy import or_
-
-
+from random import *
 from flask_sqlalchemy import SQLAlchemy
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
@@ -31,28 +30,34 @@ class BluePrint(db.Model):
 
 @app.route('/', methods=["GET", "POST"])
 def home():
+    tag='default'
     pid = request.args.get("pid")
     blueprints = BluePrint.query.all()
     if pid :
+        tag=pid
         blueprints = BluePrint.query.filter(or_(BluePrint.parent_id == pid,BluePrint.id == pid))
-
-    return render_template("home.html",blueprints=blueprints)
+    return render_template("home.html",blueprints=blueprints, tagid=tag)
 
 
 
 @app.route('/downloadCsv', methods=["GET", "POST"])
-def index():    
-    records = BluePrint.query.all()
-    with open('vehicle.csv', 'w') as f_handle:
+def index():   
+    pid = request.args.get("tag") 
+    records = BluePrint.query.all().with_entities(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date)
+    if pid:
+        tag=pid
+        records = BluePrint.query.filter(or_(BluePrint.parent_id == pid,BluePrint.id == pid)).with_entities(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date)
+    filename = 'wdsfile'+'_'+str(randint(1,99))+'.csv'
+    with open(filename, 'w') as f_handle:
         writer = csv.writer(f_handle)
         # Add the header/column names
-        header = ['id','slno','name','start_date','end_date','parent_id']
+        header = ['slno','name','start_date','end_date']
         writer.writerow(header)
         # Iterate over `data`  and  write to the csv file
         [writer.writerow([getattr(curr, column.name) for column in BluePrint.__mapper__.columns]) for curr in records]
     # return redirect("vehicle.csv", code=302)
     return send_from_directory('',
-                               'vehicle.csv', as_attachment=True)
+                               filename, as_attachment=True)
 
 
 
