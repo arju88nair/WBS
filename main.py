@@ -52,19 +52,24 @@ def index():
         records=db.session.query(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date).filter(or_(BluePrint.parent_id == pid,BluePrint.id == pid))
     
     filename = 'docs/wdsfile'+'_'+str(randint(1,99))+'.csv'
-    with open(filename, 'w') as f_handle:
-        writer = csv.writer(f_handle)
-        # Add the header/column names
-        header = ['slno','name','start_date','end_date']
-        writer.writerow(header)
-        # Iterate over `data`  and  write to the csv file
-        for record in records:
-            writer.writerow(record)
+    return writeToCsv(records,filename)
     return send_from_directory('',
                                filename, as_attachment=True)
 
 
 
+
+def writeToCsv(data,filename):
+
+    with open(filename, 'w') as theFile:
+        headersList = ['slno','name','start_date','end_date']
+        headers = ",".join(headersList)
+        theFile.write(headers+'\n')
+        test=[]
+        for record in data:
+            commaSeperated=None
+            commaSeperated = ','.join(map(str, record)) 
+            theFile.write(commaSeperated+'\n')
 
 
 if __name__ == "__main__":
