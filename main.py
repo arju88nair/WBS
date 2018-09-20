@@ -16,8 +16,14 @@ database_file= 'mysql://root:@127.0.0.1/wds'
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_file
 db = SQLAlchemy(app)
-""""
-""""
+
+
+"""
+ORM MODEL
+
+Defined the main columns and their attributes
+"""
+
 class BluePrint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     slno = db.Column(db.String(45))
@@ -27,6 +33,16 @@ class BluePrint(db.Model):
     parent_id = db.Column(db.Integer)
 
    
+"""
+Main Route for the home page
+
+Same route for the whole blue print and filtered activities view.
+Depends on the parent id (pid)
+
+
+Returns:
+    template
+"""
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -39,6 +55,18 @@ def home():
     return render_template("home.html",blueprints=blueprints, tagid=tag)
 
 
+
+"""
+CSV downlaoding
+ Categorised between sorting 
+ Arguements:
+
+ tag -- Default view and pid based for the activities
+ mode -- Sort mode
+
+Returns:
+    File download MIME type
+"""
 
 @app.route('/downloadCsv', methods=["GET", "POST"])
 def index():   
@@ -60,6 +88,14 @@ def index():
                                filename, as_attachment=True)
 
 
+"""
+CSV generation method
+
+Arguements :
+data -- Data to write
+filename -- To save
+
+"""
 
 def writeToCsv(data,filename):
     with open(filename, 'w') as theFile:
