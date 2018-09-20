@@ -35,7 +35,13 @@
   <br>
 
   <div class="container">
-    <a href="/downloadCsv?tag={{tagid}}" class="btn btn-outline-primary"> <i class="fas fa-download"></i> &nbsp; Download CSV</a>
+    <div class="form-group">
+      <select class="form-control col-md-4" id="sel1" name="sellist1" onchange="location = this.value;">
+        <option value="#">Download CSV as:</option>
+        <option value="/downloadCsv?tag={{tagid}}&mode=wds">Sorted by WDS</option>
+        <option value="/downloadCsv?tag={{tagid}}&mode=start">Sorted by  Start Date</option>
+      </select>
+      </div>
     <br>
     <br>
     {% if tagid != 'default' %}
@@ -51,7 +57,6 @@
           <th>Name</th>
           <th>Start Date</th>
           <th>End Date</th>
-          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -71,7 +76,6 @@
           <td>{{blueprint.name}}</td>
           <td>{{blueprint.start_date}}</td>
           <td>{{blueprint.end_date}}</td>
-          <td>{{blueprint.parent_id}}</td>
         </tr>
 
         {% endfor %}

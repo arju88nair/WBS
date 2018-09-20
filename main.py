@@ -45,19 +45,28 @@ def home():
 @app.route('/downloadCsv', methods=["GET", "POST"])
 def index():   
     pid = request.args.get("tag") 
-    records = db.session.query(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date).all()
+    mode = request.args.get("mode") 
+    order = order_by(BluePrint.slno.desc())
+    if mode == "start":
+        order=order_by(BluePrint.start_date.desc())
 
-    if pid:
+
+
+    records = db.session.query(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date).order.all()
+
+    if pid != "default":
+        
         tag=pid
         records=db.session.query(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date).filter(or_(BluePrint.parent_id == pid,BluePrint.id == pid))
     
     filename = 'docs/wdsfile'+'_'+str(randint(1,99))+'.csv'
-    return writeToCsv(records,filename)
+    writeToCsv(records,filename)
     return send_from_directory('',
                                filename, as_attachment=True)
 
 
 
+    
 
 def writeToCsv(data,filename):
 
