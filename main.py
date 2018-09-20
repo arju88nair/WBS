@@ -1,6 +1,5 @@
 import os
 import csv
-
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -14,12 +13,11 @@ import json
 
 project_dir = os.path.dirname(os.path.abspath(__file__))
 database_file= 'mysql://root:@127.0.0.1/wds'
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_file
-
 db = SQLAlchemy(app)
-
+""""
+""""
 class BluePrint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     slno = db.Column(db.String(45))
@@ -46,18 +44,15 @@ def home():
 def index():   
     pid = request.args.get("tag") 
     mode = request.args.get("mode") 
-    order = order_by(BluePrint.slno.desc())
+    column="slno"
     if mode == "start":
-        order=order_by(BluePrint.start_date.desc())
+        column="start_date"
 
+    records = db.session.query(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date).order_by(getattr(BluePrint, column).desc()).all()
 
-
-    records = db.session.query(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date).order.all()
-
-    if pid != "default":
-        
+    if pid != "default":       
         tag=pid
-        records=db.session.query(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date).filter(or_(BluePrint.parent_id == pid,BluePrint.id == pid))
+        records=db.session.query(BluePrint.slno,BluePrint.name,BluePrint.start_date,BluePrint.end_date).filter(or_(BluePrint.parent_id == pid,BluePrint.id == pid)).order_by(getattr(BluePrint, column).desc())
     
     filename = 'docs/wdsfile'+'_'+str(randint(1,99))+'.csv'
     writeToCsv(records,filename)
@@ -66,10 +61,7 @@ def index():
 
 
 
-    
-
 def writeToCsv(data,filename):
-
     with open(filename, 'w') as theFile:
         headersList = ['slno','name','start_date','end_date']
         headers = ",".join(headersList)
