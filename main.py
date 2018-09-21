@@ -58,8 +58,9 @@ def home():
 
 """
 CSV downlaoding
- Categorised between sorting 
- Arguements:
+ Categorized between sorting 
+
+ Arguments:
 
  tag -- Default view and pid based for the activities
  mode -- Sort mode
@@ -91,7 +92,7 @@ def index():
 """
 CSV generation method
 
-Arguements :
+Arguments :
 data -- Data to write
 filename -- To save
 
