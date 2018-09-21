@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Bootstrap Example</title>
+  <title>WDS Demo</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -11,12 +11,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script src="  https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
 
 
   <script>
     $(document).ready(function() {
-    $('#example').DataTable();
+    $('#blueprint').DataTable();
 } );
   </script>
 </head>
@@ -39,9 +40,9 @@
       <select class="form-control col-md-4" id="sel1" name="sellist1" onchange="location = this.value;">
         <option value="#">Download CSV as:</option>
         <option value="/downloadCsv?tag={{tagid}}&mode=wds">Sorted by WDS</option>
-        <option value="/downloadCsv?tag={{tagid}}&mode=start">Sorted by  Start Date</option>
+        <option value="/downloadCsv?tag={{tagid}}&mode=start">Sorted by Start Date</option>
       </select>
-      </div>
+    </div>
     <br>
     <br>
     {% if tagid != 'default' %}
@@ -49,7 +50,7 @@
     {% endif %}
 
     <h3>Blueprints</h3>
-    <table id="example" class="display table  table-striped" style="width:100%">
+    <table id="blueprint" class="display table  table-striped" style="width:100%">
       <thead>
         <tr>
           <th>id</th>
