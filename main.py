@@ -28,8 +28,8 @@ class BluePrint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     slno = db.Column(db.String(45))
     name = db.Column(db.String(255))
-    start_date = db.Column(db.DateTime)
-    end_date = db.Column(db.DateTime)
+    start_date = db.Column(db.String(45))
+    end_date = db.Column(db.String(255))
     parent_id = db.Column(db.Integer)
 
    

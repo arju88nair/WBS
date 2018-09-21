@@ -7,7 +7,7 @@ In construction industry, all projects use a master plan. A master plan is basic
 
 
 
-| Sl No        | Activity           | Start Date|End Date|
+| Sl No| Activity Start Date|End Date|
 | ------------- |:-------------:| -----:|-----:|-----:|
 |1|House|2018-08-01|2019-02-28|
 1.1|Foundation|2018-08-01|2019-09-04|
