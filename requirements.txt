@@ -95,7 +95,7 @@ rabbitvcs==0.16.0
 requests==2.20.0
 s3transfer==0.1.13
 scandir==1.7
-Scrapy==1.5.0
+Scrapy==2.6.1
 SecretStorage==2.3.1
 service-identity==17.0.0
 setproctitle==1.1.10
